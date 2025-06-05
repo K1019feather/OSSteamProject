@@ -2,53 +2,46 @@ import os
 from PIL import Image, ImageEnhance
 
 # 설정
-data_dir= 'C:/Users/jmoa7/trashnet/data/dataset-resized'  # 클래스별 이미지 폴더가 있는 디렉토리
-output_dir = './processed_data'
-classes = ['cardboard', 'glass', 'metal', 'paper', 'plastic']
-resize_size = (224, 224)
-brightness_factor = 1.2  # 1.0이면 그대로, 1.2면 20% 더 밝게
+VALID_EXTENSIONS = ['.jpg', '.jpeg', '.png']
+RESIZE_SIZE = (224, 224)
+BRIGHTNESS_FACTOR = 1.2
 
-# 출력 폴더 생성
-os.makedirs(output_dir, exist_ok=True)
+def preprocess_image(img_path, resize_size=RESIZE_SIZE, brightness=BRIGHTNESS_FACTOR):
+    with Image.open(img_path) as img:
+        img = img.convert('RGB')  # RGB 변환
+        img = img.resize(resize_size)  # 리사이즈
+        enhancer = ImageEnhance.Brightness(img)
+        img = enhancer.enhance(brightness)  # 밝기 조정
+        return img
 
-image_paths = []
-labels = []
+def process_class_folder(input_dir, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    image_count = 0
 
-for label_idx, class_name in enumerate(classes):
-    class_dir = os.path.join(data_dir, class_name)
-    if not os.path.exists(class_dir):
-        continue
-
-    output_class_dir = os.path.join(output_dir, class_name)
-    os.makedirs(output_class_dir, exist_ok=True)
-
-    for fname in os.listdir(class_dir):
-        if fname.lower().endswith(('.jpg', '.jpeg', '.png')):
-            img_path = os.path.join(class_dir, fname)
-
+    for fname in os.listdir(input_dir):
+        if fname.lower().endswith(tuple(VALID_EXTENSIONS)):
             try:
-                # 이미지 열기
-                with Image.open(img_path) as img:
-                    # RGB 변환 (팔레트나 L 등 대응)
-                    img = img.convert('RGB')
-
-                    # Resize
-                    img = img.resize(resize_size)
-
-                    # 밝기 조정
-                    enhancer = ImageEnhance.Brightness(img)
-                    img = enhancer.enhance(brightness_factor)
-
-                    # 저장
-                    save_path = os.path.join(output_class_dir, fname)
-                    img.save(save_path)
-
-                    # 라벨링
-                    image_paths.append(save_path)
-                    labels.append(label_idx)
-
+                img_path = os.path.join(input_dir, fname)
+                processed_img = preprocess_image(img_path)
+                processed_img.save(os.path.join(output_dir, fname))
+                image_count += 1
             except Exception as e:
-                print(f"❌ 이미지 처리 실패: {img_path} → {e}")
+                print(f"❌ 실패: {fname} → {e}")
 
-print(f"✅ 총 처리 이미지 수: {len(image_paths)}")
+    print(f"✅ {output_dir}: {image_count}장 처리 완료")
+
+def process_all_classes(data_dir, save_root, classes):
+    for class_name in classes:
+        input_path = os.path.join(data_dir, class_name)
+        output_path = os.path.join(save_root, class_name)
+        if os.path.isdir(input_path):
+            process_class_folder(input_path, output_path)
+
+# 예시 실행
+if __name__ == "__main__":
+    data_dir = r"C:\Users\jmoa7\trashnet\data\dataset-resized"
+    save_dir = r"C:\Users\jmoa7\trashnet\processed_data"
+    class_list = ['cardboard', 'glass', 'metal', 'paper', 'plastic']
+    process_all_classes(data_dir, save_dir, class_list)
+
 
