@@ -148,8 +148,14 @@ def predict_image(image_path):
     img_array = tf.expand_dims(img_array, 0)  # Expand dimensions to match model input
 
     predictions = model.predict(img_array)  # Get predictions
+
+    print("\n🔍 예측 확률:")
+    for i, prob in enumerate(predictions[0]):
+        print(f"{categories[i]}: {prob:.4f}")
+
     class_idx = tf.argmax(predictions[0]).numpy()  # Get class index
     class_label = categories[class_idx]  # Map to class label
+    print(f"\n✅ 최종 예측 클래스: {class_label}")
     return class_label
 
 # Test with a sample image
