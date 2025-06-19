@@ -182,3 +182,9 @@ print("Val Loss:", history.history['val_loss'][-1])
 
 print("Epochs trained:", len(history.history['accuracy']))
 
+from data_utils import extract_misclassified_samples
+
+categories = ['cardboard', 'glass', 'metal', 'paper', 'plastic']
+extract_misclassified_samples(model, val_data, categories)
+
+
