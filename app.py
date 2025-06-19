@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import os
 from utils import preprocess_image, predict_waste_category
+from speak import speakTrash
 
 app = Flask(__name__)
 
@@ -37,6 +38,7 @@ def predict():
         # Preprocess image and make prediction
         try:
             category = predict_waste_category(filename)
+            speakTrash(category)
             return render_template('result.html', 
                                 image_path=filename,
                                 category=category)
