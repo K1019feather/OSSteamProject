@@ -46,3 +46,35 @@ def get_data_loaders(data_dir, img_size=IMG_SIZE, batch_size=BATCH_SIZE):
     )
 
     return train_data, val_data
+
+import os
+import numpy as np
+from tensorflow.keras.preprocessing.image import array_to_img
+
+def extract_misclassified_samples(model, val_data, class_names, save_dir='misclassified', max_images=20):
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    total_checked = 0
+    misclassified = 0
+
+    for i in range(len(val_data)):
+        images, labels = val_data[i]
+        predictions = model.predict(images)
+        pred_classes = np.argmax(predictions, axis=1)
+        true_classes = np.argmax(labels, axis=1)
+
+        for j in range(len(images)):
+            total_checked += 1
+            if pred_classes[j] != true_classes[j]:
+                misclassified += 1
+                if misclassified > max_images:
+                    print(f"✅ 오분류 {max_images}개 저장 완료.")
+                    return
+
+                img = array_to_img(images[j])
+                fname = f"{misclassified}_P-{class_names[pred_classes[j]]}_T-{class_names[true_classes[j]]}.jpg"
+                img.save(os.path.join(save_dir, fname))
+
+    print(f"🔍 전체 {total_checked}개 중 오분류 {misclassified}개 추출 완료.")
+
