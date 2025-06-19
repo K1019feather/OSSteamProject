@@ -4,7 +4,7 @@ from PIL import Image
 import os
 
 # Load the model - using the correct path you provided
-MODEL_PATH = '/Users/tanishq/Desktop/waste_model/waste_classification_model.h5'
+MODEL_PATH = './models/waste_classification_model_20250619_215017.h5'
 print(f"Attempting to load model from: {MODEL_PATH}")
 
 # Check if file exists
@@ -18,7 +18,7 @@ except Exception as e:
     raise
 
 # Categories mapping
-CATEGORIES = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash']
+CATEGORIES = ['cardboard', 'glass', 'metal', 'paper', 'plastic']
 
 def preprocess_image(image_path):
     """Preprocess the image to match model requirements."""
