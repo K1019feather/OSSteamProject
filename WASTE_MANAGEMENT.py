@@ -129,7 +129,7 @@ def show_predictions_tf(model, data, class_names, max_images=8):
 
 
 # In[39]:
-
+categories = list(train_data.class_indices.keys())
 
 # 학습 후 예측 시각화
 show_predictions_tf(model, val_data, categories)
@@ -143,6 +143,7 @@ def predict_image(image_path):
     from tensorflow.keras.utils import load_img, img_to_array
     import numpy as np
 
+    img_size = (128, 128)  # 모델 input_shape와 일치하게 정의
     img = load_img(image_path, target_size=img_size)  # Load image with specified size
     img_array = img_to_array(img) / 255.0  # Normalize the image
     img_array = tf.expand_dims(img_array, 0)  # Expand dimensions to match model input
@@ -181,10 +182,3 @@ print("Val Loss:", history.history['val_loss'][-1])
 
 
 print("Epochs trained:", len(history.history['accuracy']))
-
-from data_utils import extract_misclassified_samples
-
-categories = ['cardboard', 'glass', 'metal', 'paper', 'plastic']
-extract_misclassified_samples(model, val_data, categories)
-
-
