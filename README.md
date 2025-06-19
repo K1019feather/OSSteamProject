@@ -23,8 +23,6 @@
 1) trashnet : github.com/garythung/trashnet
 2) trashbox : github.com/nikhilvenkatkumsetty/TrashBox
 
--ui
-https://github.com/tanishq-ctrl/waste-classification의 ui 수정
 
 
 # 프로젝트 구조
