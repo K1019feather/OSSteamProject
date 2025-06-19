@@ -17,6 +17,15 @@
   이후 trainable=True로 전체 모델을 언프리즈 후 파인튜닝 진행  
   학습률 실험을 통해 가장 성능이 높은 모델을 선정하여 사용
 
+# 출처
+
+-dataset
+1) trashnet : github.com/garythung/trashnet
+2) trashbox : github.com/nikhilvenkatkumsetty/TrashBox
+
+-ui
+
+
 # 프로젝트 구조
 
 OSSteamProject/  
