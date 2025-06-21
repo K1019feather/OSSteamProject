@@ -33,11 +33,11 @@ class App:
         style = ttk.Style()
         style.theme_use("clam")
         style.configure("Rounded.TButton",
-                        font=("Arial Rounded MT Bold", 16, "bold"),  # 글자 굵게 변경
+                        font=("Arial Rounded MT Bold", 16, "bold"),
                         padding=12,
                         relief="flat",
                         borderwidth=0,
-                        background="#006400",
+                        background="#228B22",
                         foreground="white")
         style.map("Rounded.TButton",
                   background=[('active', '#228B22')])
