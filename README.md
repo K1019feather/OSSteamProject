@@ -17,7 +17,7 @@
 
 # 사용한 모델
 
-- EfficientNetB0  
+- EfficientNetB0 : imageNet 데이터로 사전 학습된 모델 사용
 - 출력층 수정 : 5가지 클래스로 모델 수정  
 - fine-tuning :  
   trainable=False로 출력층만 학습 (baseline 모델)  
