@@ -17,6 +17,7 @@
 
 # 사용한 모델
 
+- 원본 모델 출처: https://github.com/tanishq-ctrl/waste-classification
 - EfficientNetB0 : imageNet 데이터로 사전 학습된 모델 사용
 - 출력층 수정 : 5가지 클래스로 모델 수정  
 - fine-tuning :  
