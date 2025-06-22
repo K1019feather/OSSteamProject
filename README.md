@@ -24,6 +24,10 @@
   trainable=False로 출력층만 학습 (baseline 모델)  
   이후 trainable=True로 전체 모델을 언프리즈 후 파인튜닝 진행  
   학습률 실험을 통해 가장 성능이 높은 모델을 선정하여 사용
+- 모델 학습 프로세스에서 데이터 준비:
+   ├── Dataset split: 80% training, 20% validation
+   ├── Image resizing to 224x224 pixels
+   └── Data augmentation for better generalization
 
 # 데이터셋 출처
 
